@@ -18,10 +18,12 @@ pipeline {
       defaultContainer 'kaniko'
       yaml """
 kind: Pod
+metadata:
+  name: kaniko
 spec:
   containers:
-  - name: kaniko
-    image: gcr.io/kaniko-project/executor:debug-539ddefcae3fd6b411a95982a830d987f4214251
+  - name: builder
+    image: gcr.io/kaniko-project/executor:debug
     imagePullPolicy: Always
     command:
     - /busybox/cat
@@ -30,19 +32,16 @@ spec:
       - name: docker-config
         mountPath: /kaniko/.docker
   volumes:
-  - name: docker-config
-    configMap:
-      name: docker-config
+    - name: docker-config
+      configMap:
+        name: docker-config
 """
     }
   }
   stages {
     stage('Build with Kaniko') {
       steps {
-        git 'https://github.com/jenkinsci/docker-inbound-agent.git'
-        git 'https://github.com/alexm118/jenkins-docker-test.git'
-        sh 'ls -al'
-        sh '/kaniko/executor --dockerfile `pwd`/Dockerfile --context `pwd` --insecure --skip-tls-verify --cache=true --destination=775216406089.dkr.ecr.us-east-1.amazonaws.com/va-cedar-repository/testing'
+        sh "/kaniko/executor --dockerfile `pwd`/Dockerfile --context `pwd` --destination=775216406089.dkr.ecr.us-east-1.amazonaws.com/va-cedar-repository/testing'
       }
     }
   }
