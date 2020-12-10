@@ -41,7 +41,7 @@ spec:
   stages {
     stage('Build with Kaniko') {
       steps {
-        sh "/kaniko/executor --dockerfile `pwd`/Dockerfile --context `pwd` --destination=775216406089.dkr.ecr.us-east-1.amazonaws.com/va-cedar-repository/testing'
+        sh "/kaniko/executor --dockerfile `pwd`/Dockerfile --context `pwd` --destination=775216406089.dkr.ecr.us-east-1.amazonaws.com/va-cedar-repository/testing"
       }
     }
   }
