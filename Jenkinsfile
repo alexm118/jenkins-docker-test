@@ -40,6 +40,8 @@ spec:
     stage('Build with Kaniko') {
       steps {
         git 'https://github.com/jenkinsci/docker-inbound-agent.git'
+        git 'https://github.com/alexm118/jenkins-docker-test.git'
+        sh 'ls -al'
         sh '/kaniko/executor --dockerfile `pwd`/Dockerfile --context `pwd` --insecure --skip-tls-verify --cache=true --destination=775216406089.dkr.ecr.us-east-1.amazonaws.com/va-cedar-repository/testing'
       }
     }
