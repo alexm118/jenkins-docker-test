@@ -15,7 +15,7 @@ pipeline {
   agent {
     kubernetes {
       //cloud 'kubernetes'
-      defaultContainer 'kaniko'
+      defaultContainer 'builder'
       yaml """
 kind: Pod
 metadata:
