@@ -27,17 +27,12 @@ spec:
     - /busybox/cat
     tty: true
     volumeMounts:
-      - name: jenkins-docker-cfg
+      - name: docker-config
         mountPath: /kaniko/.docker
   volumes:
-  - name: jenkins-docker-cfg
-    projected:
-      sources:
-      - secret:
-          name: regcred
-          items:
-            - key: .dockerconfigjson
-              path: config.json
+  - name: docker-config
+    configMap:
+      name: docker-config
 """
     }
   }
@@ -45,7 +40,7 @@ spec:
     stage('Build with Kaniko') {
       steps {
         git 'https://github.com/jenkinsci/docker-inbound-agent.git'
-        sh '/kaniko/executor -f `pwd`/Dockerfile -c `pwd` --insecure --skip-tls-verify --cache=true --destination=mydockerregistry:5000/myorg/myimage'
+        sh '/kaniko/executor -f `pwd`/Dockerfile -c `pwd` --insecure --skip-tls-verify --cache=true --destination=775216406089.dkr.ecr.us-east-1.amazonaws.com/va-cedar-repository/testing'
       }
     }
   }
